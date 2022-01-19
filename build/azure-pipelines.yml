@@ -33,5 +33,5 @@ steps:
   displayName: 'Install wheel, setuptools, twine'
   
 - script: |
-    python setup.py bdist_wheel
-  displayName: 'Building library'
+    python SharedFunctionsLib/setup.py bdist_wheel
+  displayName: 'Building package'
