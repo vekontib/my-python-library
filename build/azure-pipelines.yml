@@ -29,21 +29,19 @@ steps:
     python -m pip install --upgrade pip
     pip install wheel
     pip install setuptools
-    pip install twine
-  displayName: 'Install wheel, setuptools, twine'
+  displayName: 'Install Tools'
   
 # Build the package / library
 - script: |
     python SharedFunctionsLib/setup.py sdist bdist_wheel
     ls dist/
-  displayName: 'Building package'
+  displayName: 'Building Package'
 
 # Create an artifact for deployment
 - script: |
     mkdir -p $(Build.BinariesDirectory)/libraries/python/libs
     cp $(Build.Repository.LocalPath)/dist/*.* $(Build.BinariesDirectory)/libraries/python/libs
-  displayName: 'Copying built package'
-
+  displayName: 'Copy Built Package from Dist'
 
 - task: ArchiveFiles@2
   inputs:
@@ -52,7 +50,9 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
     replaceExistingArchive: true
+  displayName: 'Zip Package'
 
 - task: PublishBuildArtifacts@1
   inputs:
     ArtifactName: 'SharedFunctionsLib'
+  displayName: 'Publish Zipped Package as Artifact'
