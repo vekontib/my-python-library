@@ -32,10 +32,26 @@ steps:
     pip install twine
   displayName: 'Install wheel, setuptools, twine'
   
+# Build the package / library
 - script: |
     python SharedFunctionsLib/setup.py sdist bdist_wheel
     ls dist/
   displayName: 'Building package'
+
+# Create an artifact for deployment
+- script: |
+    mkdir -p $(Build.BinariesDirectory)/libraries/python/libs
+    cp $(Build.Repository.LocalPath)/dist/*.* $(Build.BinariesDirectory)/libraries/python/libs
+  displayName: 'Copying built package'
+
+
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: '$(Build.BinariesDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
 
 - task: PublishBuildArtifacts@1
   inputs:
