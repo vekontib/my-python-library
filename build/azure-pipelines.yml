@@ -33,5 +33,10 @@ steps:
   displayName: 'Install wheel, setuptools, twine'
   
 - script: |
-    python SharedFunctionsLib/setup.py bdist_wheel
+    python SharedFunctionsLib/setup.py sdist bdist_wheel
+    ls dist/
   displayName: 'Building package'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: 'SharedFunctionsLib'
