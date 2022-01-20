@@ -39,18 +39,20 @@ steps:
 
 # Create an artifact for deployment
 - script: |
-    mkdir -p $(Build.BinariesDirectory)/libraries/python/libs
-    cp $(Build.Repository.LocalPath)/dist/*.* $(Build.BinariesDirectory)/libraries/python/libs
+    mkdir -p $(Build.ArtifactStagingDirectory)/libraries/python/libs
+    cp $(Build.Repository.LocalPath)/dist/*.* $(Build.ArtifactStagingDirectory)/libraries/python/libs
+#    mkdir -p $(Build.BinariesDirectory)/libraries/python/libs
+#    cp $(Build.Repository.LocalPath)/dist/*.* $(Build.BinariesDirectory)/libraries/python/libs
   displayName: 'Copy Built Package from Dist'
 
-- task: ArchiveFiles@2
-  inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)'
-    includeRootFolder: false
-    archiveType: 'zip'
-    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
-    replaceExistingArchive: true
-  displayName: 'Zip Package'
+#- task: ArchiveFiles@2
+#  inputs:
+#    rootFolderOrFile: '$(Build.BinariesDirectory)'
+#    includeRootFolder: false
+#    archiveType: 'zip'
+#    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+#    replaceExistingArchive: true
+#  displayName: 'Zip Package'
 
 - task: PublishBuildArtifacts@1
   inputs:
